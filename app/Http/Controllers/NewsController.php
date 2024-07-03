@@ -14,7 +14,7 @@ class NewsController extends Controller
     public function getNews()
     {
         try {
-            $news = NewsModel::with('user')->get();
+            $news = NewsModel::with(['users', 'kategoris'])->get();
             if ($news) {
                 return response()->json([
                     'status' => 200,
@@ -65,6 +65,7 @@ class NewsController extends Controller
                 'content' => 'required|string',
                 'image' => 'required|image',
                 'desc' => 'required|string',
+                'kategori_id' => 'required|integer'
             ]);
             if ($validasi->fails()) {
                 return response()->json([
@@ -83,6 +84,7 @@ class NewsController extends Controller
                 'image' => $imageName,
                 'desc' => $request->desc,
                 'slug' => Str::of($request->title)->slug('-'),
+                'kategori_id' => $request->kategori_id,
                 'user_id' => auth()->user()->id
             ]);
 
@@ -114,6 +116,7 @@ class NewsController extends Controller
                 'content' => 'string',
                 'image' => 'image',
                 'desc' => 'string',
+                'kategori_id' => 'integer',
             ]);
 
             if ($validasi->fails()) {
@@ -138,6 +141,7 @@ class NewsController extends Controller
                     'image' => $imageName,
                     'desc' => $request->desc,
                     'slug' => Str::of($request->title)->slug('-'),
+                    'kategori_id' => $request->kategori_id,
                     'user_id' => auth()->user()->id
                 ]);
             } else {
@@ -146,6 +150,7 @@ class NewsController extends Controller
                     'content' => $request->content,
                     'desc' => $request->desc,
                     'slug' => Str::of($request->title)->slug('-'),
+                    'kategori_id' => $request->kategori_id,
                     'user_id' => auth()->user()->id
                 ]);
             }

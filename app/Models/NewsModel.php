@@ -16,6 +16,7 @@ class NewsModel extends Model
         'content',
         'image',
         'user_id',
+        'kategori_id',
         'desc'
     ];
     protected $primaryKey = 'id';
